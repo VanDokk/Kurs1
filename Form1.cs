@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
+using System.IO;
 
 namespace TheEndGame2
 {
@@ -9,20 +10,20 @@ namespace TheEndGame2
     {
         Excel.Application excelApp;
         Excel.Workbook workBook;
-        Excel.Worksheet workSheet;        
+        Excel.Worksheet workSheet;
         int freeRow;
-        int columnIndex;        
+        int columnIndex;
         bool flagOfRowHeaderValue = false;
-        string password = "qwe123";
+        string password;
         bool flag = false;
         bool isCreateBook = false;
-        
+
 
 
 
         public DataBase()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void OpenFileButton_Click(object sender, EventArgs e)
@@ -31,11 +32,14 @@ namespace TheEndGame2
             openFileDialog1.Filter = "Excel file (*.xls)|*.xls";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                excelApp = new Excel.Application();
+                if (excelApp == null)
+                {
+                    excelApp = new Excel.Application();
+                }
                 workBook = excelApp.Workbooks.Open(openFileDialog1.FileName);
                 workSheet = workBook.Worksheets.get_Item(1);
 
-                
+
                 freeRow = workSheet.Cells[workSheet.Rows.Count, "A"].End[Excel.XlDirection.xlUp].Row + 1;
 
                 dataGridView1.ReadOnly = true;
@@ -53,6 +57,7 @@ namespace TheEndGame2
                 SaveAsFileButton.Enabled = true;
                 toolStripTextBox3.Enabled = true;
                 isCreateBook = false;
+                f5.Enabled = true;
                 for (int i = 2; i < freeRow; i++)
                 {
                     dataGridView1.Rows.Add(workSheet.Cells[i, 1].Text, workSheet.Cells[i, 2].Text, workSheet.Cells[i, 3].Text, workSheet.Cells[i, 4].Text, workSheet.Cells[i, 5].Text, workSheet.Cells[i, 6].Text, workSheet.Cells[i, 7].Text);
@@ -64,89 +69,45 @@ namespace TheEndGame2
 
         private void SaveFileButton_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.ReadOnly == false && flag == true)
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                for (int j = 1; j < 8; j++)
                 {
-                    for (int j = 1; j < 8; j++)
-                    {
-                        if (dataGridView1[j - 1, i].Value != null)
-                            workSheet.Cells[dataGridView1.Rows[i].HeaderCell.Value, j] = dataGridView1[j - 1, i].Value.ToString();
-                        // dataGridView1.Rows.RemoveAt(dataGridView1.Rows.GetFirstRow(DataGridViewElementStates.Displayed));
-                    }
+                    if (dataGridView1[j - 1, i].Value != null)
+                        workSheet.Cells[dataGridView1.Rows[i].HeaderCell.Value, j] = dataGridView1[j - 1, i].Value.ToString();
                 }
-
-                excelApp.ActiveWorkbook.Save();
-                workBook.Close(false);
-                excelApp.Quit();
-                dataGridView1.ReadOnly = true;
-                dataGridView1.Rows.Clear();
-                dataGridView2.Rows.Clear();
-                toolStripTextBox1.Enabled = false;
-                PrizesCountryToolStripMenuItem.Enabled = false;
-                Column8.Visible = false;
-                dataGridView2.Visible = false;
-                MedalsCountryToolStripMenuItem.Enabled = false;
-                PrizesSportToolStripMenuItem.Enabled = false;
-                SaveFileButton.Enabled = false;
-                SaveAsFileButton.Enabled = false;                
-                toolStripTextBox3.Enabled = true;
             }
-            else if (dataGridView1.ReadOnly == true && flag == true )
-                MessageBox.Show("Нечего сохранять");
-            else if ((dataGridView1.ReadOnly == true && flag == false) || (dataGridView1.ReadOnly == false && flag == false))
-                MessageBox.Show("Введите пароль");
+            excelApp.ActiveWorkbook.Save();
         }
 
         private void SaveAsFileButton_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.ReadOnly == false && ((flag == true && isCreateBook == false) || (flag == false && isCreateBook == true)))
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                for (int j = 1; j < 8; j++)
                 {
-                    for (int j = 1; j < 8; j++)
-                    {
-                        if (dataGridView1[j - 1, i].Value != null)
-                            workSheet.Cells[dataGridView1.Rows[i].HeaderCell.Value,j] = dataGridView1[j - 1, i].Value.ToString();
-                    }
+                    if (dataGridView1[j - 1, i].Value != null)
+                        workSheet.Cells[dataGridView1.Rows[i].HeaderCell.Value, j] = dataGridView1[j - 1, i].Value.ToString();
                 }
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.Filter = "Excel file (*.xls)|*.xls";
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    excelApp.ActiveWorkbook.SaveAs(saveFileDialog1.FileName, Excel.XlSaveAsAccessMode.xlNoChange);
-                    workBook.Close(false);
-                    excelApp.Quit();
-
-                    toolStripTextBox1.Enabled = false;
-                    dataGridView1.Rows.Clear();
-                    dataGridView2.Rows.Clear();
-                    dataGridView1.ReadOnly = true;
-                    PrizesCountryToolStripMenuItem.Enabled = false;
-                    Column8.Visible = false;
-                    dataGridView2.Visible = false;
-                    MedalsCountryToolStripMenuItem.Enabled = false;
-                    PrizesSportToolStripMenuItem.Enabled = false;
-                    SaveFileButton.Enabled = false;
-                    SaveAsFileButton.Enabled = false;
-                    isCreateBook = false;
-                    toolStripTextBox3.Enabled = true;
-                }
-                
-
             }
-            else if (dataGridView1.ReadOnly == true && flag == true)
-                MessageBox.Show("Нечего сохранять");
-            else if (((dataGridView1.ReadOnly == true && flag == false) || (dataGridView1.ReadOnly == false && flag == false)) && isCreateBook == false)
-                MessageBox.Show("Введите пароль");
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Excel file (*.xls)|*.xls";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                excelApp.ActiveWorkbook.SaveAs(saveFileDialog1.FileName, Excel.XlSaveAsAccessMode.xlNoChange);
+            }
+        }
 
-        }            
-        
         private void CreateNewButton_Click(object sender, EventArgs e)
         {
-            excelApp = new Excel.Application();
-            workBook = excelApp.Workbooks.Add();
-            workSheet = workBook.Worksheets.get_Item(1);
+            if (excelApp == null)
+            {
+                excelApp = new Excel.Application();
+                workBook = excelApp.Workbooks.Add();
+                workSheet = workBook.Worksheets.get_Item(1);
+            }
+            
+
 
             //Заполняем основные поля
             workSheet.Cells[1, 1] = "Номер";
@@ -156,19 +117,19 @@ namespace TheEndGame2
             workSheet.Cells[1, 5] = "Страна";
             workSheet.Cells[1, 6] = "Дисциплина";
             workSheet.Cells[1, 7] = "Место";
+            //--------------------------------------
 
-            excelApp.Columns.ColumnWidth = 30;
-
+            excelApp.Columns.ColumnWidth = 30; // Указываем ширину ячейки
 
             freeRow = workSheet.Cells[workSheet.Rows.Count, "A"].End[Excel.XlDirection.xlUp].Row + 1;
-
-            SaveFileButton.Enabled = false;
+           
             SaveAsFileButton.Enabled = true;
             dataGridView1.Rows.Clear();            
             dataGridView1.ReadOnly = false;
             isCreateBook = true;
-            toolStripTextBox3.Enabled = false;
+            toolStripTextBox3.Enabled = PrizesCountryToolStripMenuItem.Enabled = PrizesSportToolStripMenuItem.Enabled = MedalsCountryToolStripMenuItem.Enabled = false;
             this.flagOfRowHeaderValue = true;
+            f5.Enabled = false;
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -219,8 +180,6 @@ namespace TheEndGame2
         {
             toolStripTextBox1.Text = "";
             toolStripTextBox1.ForeColor = System.Drawing.Color.Black;
-
-
         }
 
         private void toolStripTextBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -232,6 +191,7 @@ namespace TheEndGame2
                 this.flagOfRowHeaderValue = false;
                 int index = 0;
                 dataGridView1.Rows.Clear();
+                dataGridView2.Visible = false;
                 for (int i = 2; i < freeRow; i++)
                 { 
                    if (workSheet.Cells[i, 2].Text.ToLower() == toolStripTextBox1.Text.ToLower())
@@ -246,7 +206,7 @@ namespace TheEndGame2
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (flag == true && isCreateBook == false)
+            if (flag == true)
             {
                 if (e.ColumnIndex == 7)
                 {
@@ -401,6 +361,57 @@ namespace TheEndGame2
         {
             Help help = new Help();
             help.Show();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            dataGridView2.Visible = false;
+            dataGridView1.Visible = true;
+            dataGridView1.Rows.Clear();
+            for (int i = 2; i < freeRow; i++)
+            {
+                dataGridView1.Rows.Add(workSheet.Cells[i, 1].Text, workSheet.Cells[i, 2].Text, workSheet.Cells[i, 3].Text, workSheet.Cells[i, 4].Text, workSheet.Cells[i, 5].Text, workSheet.Cells[i, 6].Text, workSheet.Cells[i, 7].Text);
+            }
+            this.flagOfRowHeaderValue = false;
+
+        }
+
+        private void pass_Click(object sender, EventArgs e)
+        {
+            pass.Text = "";
+            pass.ForeColor = System.Drawing.Color.Black;
+        }
+
+        private void pass1_Click(object sender, EventArgs e)
+        {
+            pass1.Text = "";
+            pass1.ForeColor = System.Drawing.Color.Black;
+        }
+
+        private void OKButton_Click(object sender, EventArgs e)
+        {
+                if (pass.Text == "")
+                    MessageBox.Show("Введите текущий пароль!");
+                else if (pass1.Text == "")
+                    MessageBox.Show("Введите новый пароль!");
+                else if (pass.Text != "" && pass1.Text != "")
+                    if (password == pass.Text)
+                    {
+                        using (StreamWriter sw = new StreamWriter("pass.txt", false))
+                        {
+                            password = pass1.Text;
+                            sw.WriteLine(pass1.Text);                            
+                        }
+                        MessageBox.Show("Вы сменили пароль");
+                    }
+        }
+
+        private void DataBase_Load(object sender, EventArgs e)
+        {
+            using (StreamReader sr = new StreamReader("pass.txt"))
+            {
+                password = sr.ReadLine();
+            }
         }
     }
 }

@@ -30,8 +30,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataBase));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.CreateNewButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,6 +61,11 @@
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.pass = new System.Windows.Forms.ToolStripTextBox();
+            this.pass1 = new System.Windows.Forms.ToolStripTextBox();
+            this.f5 = new System.Windows.Forms.ToolStripButton();
+            this.OKButton = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -73,7 +78,8 @@
             this.toolStripTextBox1,
             this.toolStripDropDownButton2,
             this.toolStripTextBox3,
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.f5});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(797, 25);
@@ -87,7 +93,8 @@
             this.CreateNewButton,
             this.OpenFileButton,
             this.SaveAsFileButton,
-            this.SaveFileButton});
+            this.SaveFileButton,
+            this.toolStripMenuItem1});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -182,6 +189,7 @@
             // toolStripTextBox3
             // 
             this.toolStripTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBox3.Enabled = false;
             this.toolStripTextBox3.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.toolStripTextBox3.Name = "toolStripTextBox3";
             this.toolStripTextBox3.Size = new System.Drawing.Size(100, 25);
@@ -225,9 +233,9 @@
             // 
             // Column1
             // 
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Format = "N0";
+            dataGridViewCellStyle3.NullValue = null;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle3;
             this.Column1.HeaderText = "Номер";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
@@ -266,8 +274,8 @@
             // 
             // Column7
             // 
-            dataGridViewCellStyle2.NullValue = null;
-            this.Column7.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.NullValue = null;
+            this.Column7.DefaultCellStyle = dataGridViewCellStyle4;
             this.Column7.HeaderText = "Место";
             this.Column7.Name = "Column7";
             this.Column7.ReadOnly = true;
@@ -319,6 +327,50 @@
             this.Column12.HeaderText = "Бронза";
             this.Column12.Name = "Column12";
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pass,
+            this.pass1,
+            this.OKButton});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "Изменить пароль";
+            // 
+            // pass
+            // 
+            this.pass.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.pass.Name = "pass";
+            this.pass.Size = new System.Drawing.Size(100, 23);
+            this.pass.Text = "Текущий пароль";
+            this.pass.Click += new System.EventHandler(this.pass_Click);
+            // 
+            // pass1
+            // 
+            this.pass1.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.pass1.Name = "pass1";
+            this.pass1.Size = new System.Drawing.Size(100, 23);
+            this.pass1.Text = "Новый пароль";
+            this.pass1.Click += new System.EventHandler(this.pass1_Click);
+            // 
+            // f5
+            // 
+            this.f5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.f5.Enabled = false;
+            this.f5.Image = ((System.Drawing.Image)(resources.GetObject("f5.Image")));
+            this.f5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.f5.Name = "f5";
+            this.f5.Size = new System.Drawing.Size(23, 22);
+            this.f5.Text = "toolStripButton2";
+            this.f5.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // OKButton
+            // 
+            this.OKButton.Name = "OKButton";
+            this.OKButton.Size = new System.Drawing.Size(180, 22);
+            this.OKButton.Text = "OK";
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
+            // 
             // DataBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -332,6 +384,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DataBase";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DataBase_FormClosing);
+            this.Load += new System.EventHandler(this.DataBase_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -372,6 +425,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox3;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripTextBox pass;
+        private System.Windows.Forms.ToolStripTextBox pass1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripButton f5;
+        private System.Windows.Forms.ToolStripMenuItem OKButton;
     }
 }
 
